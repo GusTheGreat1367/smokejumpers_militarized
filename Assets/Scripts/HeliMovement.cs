@@ -64,20 +64,20 @@ public class HeliMovement : MonoBehaviour {
 		
 		if(Input.GetButton("rotate_right"))
 		{
-			Vector3 rot = new Vector3(0, 1, 0);
+			Vector3 rot = new Vector3(0, speed, 0);
 			heli.transform.rotation *= Quaternion.Euler(rot);
 		}
 		if(Input.GetButton("rotate_left"))
 		{
-			Vector3 rot = new Vector3(0, -1, 0);
+			Vector3 rot = new Vector3(0, -speed, 0);
 			heli.transform.rotation *= Quaternion.Euler(rot);
 		}
 		if(Input.GetButton("up")){
-			Vector3 rate = new Vector3(0, 1, 0) * speed * Time.deltaTime;
+			Vector3 rate = new Vector3(0, speed, 0);
 			heli.transform.position += rate;
 		}
 		if(Input.GetButton("down")){
-			Vector3 rate = new Vector3(0, -1, 0) * speed * Time.deltaTime;
+			Vector3 rate = new Vector3(0, -speed, 0);
 			heli.transform.position += rate;
 		}
         if(Input.GetButton("Right"))
@@ -87,7 +87,7 @@ public class HeliMovement : MonoBehaviour {
 			Vector3 rotN = TiltSide();
 			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
 			//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, 1f);
-			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, -30f, 1f); // why doesn't this work??!!
+			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, -30f, speed/2); // why doesn't this work??!!
 			Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
 			transform.rotation = rr; // *= for later when the forward/backward movement is added
         }
@@ -98,25 +98,25 @@ public class HeliMovement : MonoBehaviour {
 			Vector3 rotN = TiltSide();
 			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
 			//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, rotN.z, 1f);
-			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 30f, 1f);
+			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 30f, speed/2);
 			Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
 			transform.rotation = rr; // *= for later when the forward/backward movement is added
         }
 		if(Input.GetButton("forward"))
 		{
-			Vector3 rate = new Vector3(0, 0, 1) * speed * Time.deltaTime;
+			Vector3 rate = new Vector3(0, 0, speed);
 			heli.transform.position += rate;
 			Vector3 rotN = TiltSide();
-			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, 1f);
+			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, speed/2);
 			Quaternion rr = Quaternion.Euler(new Vector3(zz, rotN.y, transform.rotation.eulerAngles.z));
 			transform.rotation = rr; 
 		}
 		if(Input.GetButton("backward")) 
 		{
-			Vector3 rate = new Vector3(0, 0, -1) * speed * Time.deltaTime;
+			Vector3 rate = new Vector3(0, 0, -speed);
 			heli.transform.position += rate;
 			Vector3 rotN = TiltSide();
-			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, 1f);
+			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, speed/2);
 			Quaternion rr = Quaternion.Euler(new Vector3(zz, rotN.y, transform.rotation.eulerAngles.z));
 			transform.rotation = rr; 
 		}
@@ -140,7 +140,7 @@ public class HeliMovement : MonoBehaviour {
 		*/
 		else
 		{
-			float x = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 0f, 1f);
+			float x = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 0f, 1f); // or speed * Time.deltaTime
 			float z = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 0f, 1f);
 			Quaternion r = Quaternion.Euler(new Vector3(x, transform.rotation.eulerAngles.y, z));
 			transform.rotation = r;
@@ -170,7 +170,7 @@ public class HeliMovement : MonoBehaviour {
 		Vector3 rotN = TiltSide();
 		//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
 		//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, rotN.z, 1f);
-		float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 30f, 1f);
+		float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 30f, speed/2);
 		Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
 		transform.rotation = rr; // *= for later when the forward/backward movement is added
 	}
@@ -179,7 +179,7 @@ public class HeliMovement : MonoBehaviour {
 		Vector3 rotN = TiltSide();
 		//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
 		//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, 1f);
-		float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, -30f, 1f); // why doesn't this work??!!
+		float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, -30f, speed/2); // why doesn't this work??!!
 		Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
 		transform.rotation = rr; // *= for later when the forward/backward movement is added
 	}
