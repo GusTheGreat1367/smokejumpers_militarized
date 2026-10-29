@@ -1,0 +1,239 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+// TODO (top > down = importance):
+
+// fix movement, go left anywhere on screen, as in, if you are rotated and go left, you still go left on screen, just the heli has a different rotation
+// Rect3D
+// add missiles, targeting from where you clicked the mouse on screen - click on screen > spawn a missile dropping from heli > vector to mouse click position and back of Rect3D > explode missile when you hit back of Rect3D
+// for more realism, make it so there's motion, meaning that if you are ex: going left and release the left arrow, you continue moving left until the motion == 0
+// make it so the heli's angle can be the backward and side 30 degrees when you press ex: s and a
+
+//ERRORS:
+
+// the rotation only works if you are going back and going left or right, ex: if you are holding s and a, you will tilt left
+
+
+public class HeliMovement : MonoBehaviour {
+
+	// Use this for initialization
+	public GameObject heli;
+	public GameObject prefab; // the missile prefab
+	public GameObject fireText;
+	float speed = 7.5f;
+	Rect3D screen = new Rect3D(55f, 25f, 40f, new Vector3(0,0,0));
+
+	public List<GameObject> GOs;
+
+	void Start ()
+	{
+		fireText.SetActive(false);
+		prefab.SetActive(false);
+	}
+
+    void moveRight()
+    {
+        // no matter what the helicopter's rotation is, the right side of it moves down 30 degrees *SMOOTHLY* and it moves right on screen
+        Vector3 rate = new Vector3(1, 0, 0) * speed * Time.deltaTime;
+        heli.transform.position += rate;
+    }
+    void moveLeft()
+    {
+        // no matter what the helicopter's rotation is, the left side of it moves down 30 degrees *SMOOTHLY* and it moves left on screen
+        Vector3 rate = new Vector3(-1, 0, 0) * speed * Time.deltaTime;
+        heli.transform.position += rate;
+    }
+
+    private void OnDrawGizmos()
+    {
+        screen.draw(0f, 0f, 0f);
+    }
+    // Update is called once per frame
+    // smooth inputs with Mathf.MoveTowards()
+    void Update () {
+		/*
+		var xxx = transform.rotation.eulerAngles.x;
+		var zzz = transform.rotation.eulerAngles.z;
+		xxx = Mathf.Clamp(xxx, 0f, 30f);
+		zzz = Mathf.Clamp(zzz, 0f, 30f);
+		Vector3 rotee = new Vector3(xxx, transform.rotation.eulerAngles.y, zzz);
+		Quaternion roteeee = Quaternion.Euler(rotee);
+		transform.rotation = roteeee;
+		*/
+		
+		if(Input.GetButton("rotate_right"))
+		{
+			Vector3 rot = new Vector3(0, 1, 0);
+			heli.transform.rotation *= Quaternion.Euler(rot);
+		}
+		if(Input.GetButton("rotate_left"))
+		{
+			Vector3 rot = new Vector3(0, -1, 0);
+			heli.transform.rotation *= Quaternion.Euler(rot);
+		}
+		if(Input.GetButton("up")){
+			Vector3 rate = new Vector3(0, 1, 0) * speed * Time.deltaTime;
+			heli.transform.position += rate;
+		}
+		if(Input.GetButton("down")){
+			Vector3 rate = new Vector3(0, -1, 0) * speed * Time.deltaTime;
+			heli.transform.position += rate;
+		}
+        if(Input.GetButton("Right"))
+        {
+            moveRight();
+			//tiltRight();
+			Vector3 rotN = TiltSide();
+			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
+			//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, 1f);
+			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, -30f, 1f); // why doesn't this work??!!
+			Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
+			transform.rotation = rr; // *= for later when the forward/backward movement is added
+        }
+        if(Input.GetButton("Left"))
+        {
+            moveLeft();
+			//tiltLeft();
+			Vector3 rotN = TiltSide();
+			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
+			//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, rotN.z, 1f);
+			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 30f, 1f);
+			Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
+			transform.rotation = rr; // *= for later when the forward/backward movement is added
+        }
+		if(Input.GetButton("forward"))
+		{
+			Vector3 rate = new Vector3(0, 0, 1) * speed * Time.deltaTime;
+			heli.transform.position += rate;
+			Vector3 rotN = TiltSide();
+			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, 1f);
+			Quaternion rr = Quaternion.Euler(new Vector3(zz, rotN.y, transform.rotation.eulerAngles.z));
+			transform.rotation = rr; 
+		}
+		if(Input.GetButton("backward")) 
+		{
+			Vector3 rate = new Vector3(0, 0, -1) * speed * Time.deltaTime;
+			heli.transform.position += rate;
+			Vector3 rotN = TiltSide();
+			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, 1f);
+			Quaternion rr = Quaternion.Euler(new Vector3(zz, rotN.y, transform.rotation.eulerAngles.z));
+			transform.rotation = rr; 
+		}
+		/*
+		if(Input.GetMouseButtonDown(0)) // works, but a little broken
+		{
+			GameObject missile = new Missile(prefab, heli.transform.position, Input.mousePosition, fireText).fire();
+			GOs.Add(missile);
+			float x = missile.transform.position.x;
+			float y = missile.transform.position.y;
+			float z = missile.transform.position.z;
+			Vector3 mousePos = Input.mousePosition;
+
+			x = Mathf.MoveTowards(x, mousePos.x, 10f); // later cange to the y = e^x equation
+			y = Mathf.MoveTowards(y, mousePos.y, 10f); // later change to the y = e^x equation
+			z = Mathf.MoveTowards(z, mousePos.z, 10f); // later change to the y = e^x equation
+			Vector3 newPos = new Vector3(x, y, z);
+
+			missile.transform.position = newPos;
+		}
+		*/
+		else
+		{
+			float x = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 0f, 1f);
+			float z = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 0f, 1f);
+			Quaternion r = Quaternion.Euler(new Vector3(x, transform.rotation.eulerAngles.y, z));
+			transform.rotation = r;
+		}
+            // add the shoot and fire commands here, just make a class for each in Classes.cs and then start their coroutines from code like "StartCoroutine(bullet.fire())"
+
+
+
+
+            foreach (var gameObject in GOs) // inaficient to do each update, but for now, it is needed
+		{
+			if (!screen.Contains(gameObject.transform.position))
+			{
+				if(gameObject.tag != "heli")
+				{
+					Destroy(gameObject);
+				}
+				else
+				{
+					speed = 0; // if the helicopter is at the out of bounds area, it wont be able to move further in that direction
+				}
+			}
+		}
+	}
+	void tiltLeft()
+	{
+		Vector3 rotN = TiltSide();
+		//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
+		//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, rotN.z, 1f);
+		float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 30f, 1f);
+		Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
+		transform.rotation = rr; // *= for later when the forward/backward movement is added
+	}
+	void tiltRight() // moved to its own function but still wont work :cryingface
+	{
+		Vector3 rotN = TiltSide();
+		//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
+		//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, 1f);
+		float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, -30f, 1f); // why doesn't this work??!!
+		Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
+		transform.rotation = rr; // *= for later when the forward/backward movement is added
+	}
+	Vector3 TiltSide() // returns for the left side, do negative return value for right
+	// really bugged
+	{
+		float weight = transform.rotation.eulerAngles.y; // the more the y rotation value is, the larger split there will be between changing the x and z rotation values
+		//float weight = 45f;
+			// max rotation angle will be 30 degrees
+			// weight is between 0 and 360 degrees
+			// if weight = 90/270 degrees, rot.x will be 30/-30
+			// if weight = 0/180 degrees, rot.z will be 30/-30
+		float x = 0;
+		float z = 0;
+		Vector2 angle = new Vector2(x, z);
+				// the equation(s), https://www.desmos.com/calculator/p3trqrec0h:
+				// the desmos is the graph mapped to the weight (or vehicle rotation (0>360)) and when you do the equation, do it to the 90 degree mapped equation, divide the returned x value by 90, then do the steps below equations
+				
+				// we have the y value (weight) and just find what equation its apart of and solve for x, then find z from that
+
+				// 1. (X & Y are + ( 90 > weight > 0 ))      ->  x = -y + 1 { 0 < x < 1 }
+				// 2. (X is - ( 360 > weight > 270 ))        ->  x = y - 1 { -1 < x < 0 }
+				// 3. (Y is - ( 270 > weight > 180 ))        ->  x = y + 1 { 0 < x < 1 }
+				// 4. (X & Y are - ( 180 > weight > 90 ))    ->  x = -y - 1 {-1 < x < 0 } 
+
+				// for the equations the return value (x) is between 0 and 1, and then y = 1 - x, then the angle.x = x*30 and the angle.y = y*30
+				// find a way to map the weight to 1 
+		float y = weight;
+		if(weight >= 0 && weight < 90) // equation 1
+		{
+			x = (-y + 90)/90; // get the x value from 0 to 1
+			z = 1-x;
+			angle = new Vector2(x*30, z*30);
+		}
+		else if(weight >= 90 && weight < 180) // equation 4
+		{
+			x = (-y - 90)/90; // get the x value from 0 to 1
+			z = 1-x;
+			angle = new Vector2(x*30, z*30);
+		}
+		else if(weight >= 180 && weight < 270) // equation 3
+		{
+			x = (y + 90)/90; // get the x value from 0 to 1
+			z = 1-x;
+			angle = new Vector2(x*30, z*30);
+		}
+		else if(weight >= 270 && weight < 360) // equation 2
+		{
+			x = (y - 90)/90; // get the x value from 0 to 1
+			z = 1-x;
+			angle = new Vector2(x*30, z*30);
+		}
+		Vector3 rot = new Vector3(angle.x, weight, angle.y);
+		Vector3 rot_fix = new Vector3(30f, weight, 0f);
+		return rot_fix;
+	}
+}
