@@ -4,6 +4,9 @@ using UnityEngine;
 
 // TODO (top > down = importance):
 
+// forever if you are moving left, move left on screen, vice versa for right, forward/backward where ever you are facing, not for on screen:
+//     -> functions: moveLeft()                    moveRight()   moveForward()                 moveBackward()
+//                     |_same but return opposite values_|            |_same but return opposite values_|
 // fix movement, go left anywhere on screen, as in, if you are rotated and go left, you still go left on screen, just the heli has a different rotation
 // Rect3D
 // add missiles, targeting from where you clicked the mouse on screen - click on screen > spawn a missile dropping from heli > vector to mouse click position and back of Rect3D > explode missile when you hit back of Rect3D
