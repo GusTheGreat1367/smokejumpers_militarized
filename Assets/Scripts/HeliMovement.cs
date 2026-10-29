@@ -35,18 +35,6 @@ public class HeliMovement : MonoBehaviour {
 		prefab.SetActive(false);
 	}
 
-    void moveRight()
-    {
-        // no matter what the helicopter's rotation is, the right side of it moves down 30 degrees *SMOOTHLY* and it moves right on screen
-        Vector3 rate = new Vector3(1, 0, 0) * speed * Time.deltaTime;
-        heli.transform.position += rate;
-    }
-    void moveLeft()
-    {
-        // no matter what the helicopter's rotation is, the left side of it moves down 30 degrees *SMOOTHLY* and it moves left on screen
-        Vector3 rate = new Vector3(-1, 0, 0) * speed * Time.deltaTime;
-        heli.transform.position += rate;
-    }
 
     private void OnDrawGizmos()
     {
@@ -67,25 +55,26 @@ public class HeliMovement : MonoBehaviour {
 		
 		if(Input.GetButton("rotate_right"))
 		{
-			Vector3 rot = new Vector3(0, speed, 0);
+			Vector3 rot = new Vector3(0, 1f, 0)  * speed * Time.deltaTime;
 			heli.transform.rotation *= Quaternion.Euler(rot);
 		}
 		if(Input.GetButton("rotate_left"))
 		{
-			Vector3 rot = new Vector3(0, -speed, 0);
+			Vector3 rot = new Vector3(0, -1f, 0) * speed * Time.deltaTime;
 			heli.transform.rotation *= Quaternion.Euler(rot);
 		}
 		if(Input.GetButton("up")){
-			Vector3 rate = new Vector3(0, speed, 0);
+			Vector3 rate = new Vector3(0, 1f, 0) * speed * Time.deltaTime; 
 			heli.transform.position += rate;
 		}
 		if(Input.GetButton("down")){
-			Vector3 rate = new Vector3(0, -speed, 0);
+			Vector3 rate = new Vector3(0, -1f, 0) * speed * Time.deltaTime;
 			heli.transform.position += rate;
 		}
         if(Input.GetButton("Right"))
         {
-            moveRight();
+            Vector3 rate = new Vector3(1f, 0, 0) * speed * Time.deltaTime; 
+			heli.transform.position += rate;
 			//tiltRight();
 			Vector3 rotN = TiltSide();
 			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
@@ -96,7 +85,8 @@ public class HeliMovement : MonoBehaviour {
         }
         if(Input.GetButton("Left"))
         {
-            moveLeft();
+            Vector3 rate = new Vector3(-1f, 0, 0) * speed * Time.deltaTime;
+			heli.transform.position += rate;
 			//tiltLeft();
 			Vector3 rotN = TiltSide();
 			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
@@ -107,7 +97,7 @@ public class HeliMovement : MonoBehaviour {
         }
 		if(Input.GetButton("forward"))
 		{
-			Vector3 rate = new Vector3(0, 0, speed);
+			Vector3 rate = new Vector3(0, 0, 1f) * speed * Time.deltaTime;
 			heli.transform.position += rate;
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, speed/2);
@@ -116,7 +106,7 @@ public class HeliMovement : MonoBehaviour {
 		}
 		if(Input.GetButton("backward")) 
 		{
-			Vector3 rate = new Vector3(0, 0, -speed);
+			Vector3 rate = new Vector3(0, 0, -1f) * speed * Time.deltaTime;
 			heli.transform.position += rate;
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, speed/2);
@@ -239,4 +229,10 @@ public class HeliMovement : MonoBehaviour {
 		Vector3 rot_fix = new Vector3(30f, weight, 0f);
 		return rot_fix;
 	}
+
+	// Vector3 moveLeft()
+	// Vector3 moveRight()
+	// Vector3 moveForward()
+	// Vector3 moveBackward()
+
 }

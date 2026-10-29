@@ -124,6 +124,8 @@ GameObject:
   - component: {fileID: 341276159}
   - component: {fileID: 341276158}
   - component: {fileID: 341276161}
+  - component: {fileID: 341276163}
+  - component: {fileID: 341276162}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -200,6 +202,54 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &341276162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 341276157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4b3eca3a72041df9c37f8d0a0cdfd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  col:
+    serializedVersion: 2
+    rgba: 2473684848
+--- !u!23 &341276163
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 341276157}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &402285082
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +741,7 @@ MeshFilter:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 01d4f1754b12e0944924c67c83e0c11a, type: 3}
   m_PrefabInternal: {fileID: 554165008}
---- !u!114 &2016894532
+--- !u!114 &2016894535
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
