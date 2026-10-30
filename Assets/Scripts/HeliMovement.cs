@@ -7,24 +7,23 @@ using UnityEngine;
 // forever if you are moving left, move left on screen, vice versa for right, forward/backward where ever you are facing, not for on screen:
 //     -> functions: moveLeft()                    moveRight()   moveForward()                 moveBackward()
 //                     |_same but return opposite values_|            |_same but return opposite values_|
-// fix movement, go left anywhere on screen, as in, if you are rotated and go left, you still go left on screen, just the heli has a different rotation
+// change the Quaternions rotation to a fixed *= instead of =, so you can do the ex: left and back rotations at the same time
 // Rect3D
 // add missiles, targeting from where you clicked the mouse on screen - click on screen > spawn a missile dropping from heli > vector to mouse click position and back of Rect3D > explode missile when you hit back of Rect3D
 // for more realism, make it so there's motion, meaning that if you are ex: going left and release the left arrow, you continue moving left until the motion == 0
 // make it so the heli's angle can be the backward and side 30 degrees when you press ex: s and a
 
-//ERRORS:
-
-// the rotation only works if you are going back and going left or right, ex: if you are holding s and a, you will tilt left
 
 
-public class HeliMovement : MonoBehaviour {
+public class HeliMovement : MonoBehaviour 
+{
 
 	// Use this for initialization
 	public GameObject heli;
 	public GameObject prefab; // the missile prefab
 	public GameObject fireText;
-	float speed = 7.5f;
+	float speed = 5f;
+	float moveSpeed = 5f;
 	Rect3D screen = new Rect3D(55f, 25f, 40f, new Vector3(0,0,0));
 
 	public List<GameObject> GOs;
@@ -34,15 +33,12 @@ public class HeliMovement : MonoBehaviour {
 		fireText.SetActive(false);
 		prefab.SetActive(false);
 	}
-
-
     private void OnDrawGizmos()
     {
         screen.draw(0f, 0f, 0f);
     }
-    // Update is called once per frame
-    // smooth inputs with Mathf.MoveTowards()
-    void Update () {
+    void Update () 
+	{
 		/*
 		var xxx = transform.rotation.eulerAngles.x;
 		var zzz = transform.rotation.eulerAngles.z;
@@ -55,25 +51,25 @@ public class HeliMovement : MonoBehaviour {
 		
 		if(Input.GetButton("rotate_right"))
 		{
-			Vector3 rot = new Vector3(0, 1f, 0)  * speed * Time.deltaTime;
+			Vector3 rot = new Vector3(0, 1f, 0)  * moveSpeed * Time.deltaTime;
 			heli.transform.rotation *= Quaternion.Euler(rot);
 		}
 		if(Input.GetButton("rotate_left"))
 		{
-			Vector3 rot = new Vector3(0, -1f, 0) * speed * Time.deltaTime;
+			Vector3 rot = new Vector3(0, -1f, 0) * moveSpeed * Time.deltaTime;
 			heli.transform.rotation *= Quaternion.Euler(rot);
 		}
 		if(Input.GetButton("up")){
-			Vector3 rate = new Vector3(0, 1f, 0) * speed * Time.deltaTime; 
+			Vector3 rate = new Vector3(0, 1f, 0) * moveSpeed * Time.deltaTime; 
 			heli.transform.position += rate;
 		}
 		if(Input.GetButton("down")){
-			Vector3 rate = new Vector3(0, -1f, 0) * speed * Time.deltaTime;
+			Vector3 rate = new Vector3(0, -1f, 0) * moveSpeed * Time.deltaTime;
 			heli.transform.position += rate;
 		}
         if(Input.GetButton("Right"))
         {
-            Vector3 rate = new Vector3(1f, 0, 0) * speed * Time.deltaTime; 
+            Vector3 rate = new Vector3(1f, 0, 0) * moveSpeed * Time.deltaTime; 
 			heli.transform.position += rate;
 			//tiltRight();
 			Vector3 rotN = TiltSide();
@@ -85,7 +81,7 @@ public class HeliMovement : MonoBehaviour {
         }
         if(Input.GetButton("Left"))
         {
-            Vector3 rate = new Vector3(-1f, 0, 0) * speed * Time.deltaTime;
+            Vector3 rate = new Vector3(-1f, 0, 0) * moveSpeed * Time.deltaTime;
 			heli.transform.position += rate;
 			//tiltLeft();
 			Vector3 rotN = TiltSide();
@@ -97,7 +93,7 @@ public class HeliMovement : MonoBehaviour {
         }
 		if(Input.GetButton("forward"))
 		{
-			Vector3 rate = new Vector3(0, 0, 1f) * speed * Time.deltaTime;
+			Vector3 rate = new Vector3(0, 0, 1f) * moveSpeed * Time.deltaTime;
 			heli.transform.position += rate;
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, speed/2);
@@ -106,7 +102,7 @@ public class HeliMovement : MonoBehaviour {
 		}
 		if(Input.GetButton("backward")) 
 		{
-			Vector3 rate = new Vector3(0, 0, -1f) * speed * Time.deltaTime;
+			Vector3 rate = new Vector3(0, 0, -1f) * moveSpeed * Time.deltaTime;
 			heli.transform.position += rate;
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, speed/2);
@@ -230,9 +226,9 @@ public class HeliMovement : MonoBehaviour {
 		return rot_fix;
 	}
 
-	// Vector3 moveLeft()
-	// Vector3 moveRight()
-	// Vector3 moveForward()
-	// Vector3 moveBackward()
+	// Vector3 moveLeft() -> use moveSpeed
+	// Vector3 moveRight() -> use moveSpeed
+	// Vector3 moveForward() -> use moveSpeed
+	// Vector3 moveBackward() -> use moveSpeed
 
 }
