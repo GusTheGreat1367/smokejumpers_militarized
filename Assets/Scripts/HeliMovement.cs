@@ -39,6 +39,7 @@ public class HeliMovement : MonoBehaviour
     }
     void Update () 
 	{
+		Vector3 newRot = new Vector3(0, transform.rotation.eulerAngles.y, 0);
 		/*
 		var xxx = transform.rotation.eulerAngles.x;
 		var zzz = transform.rotation.eulerAngles.z;
@@ -52,12 +53,13 @@ public class HeliMovement : MonoBehaviour
 		if(Input.GetButton("rotate_right"))
 		{
 			Vector3 rot = new Vector3(0, 5f, 0)  * moveSpeed * Time.deltaTime;
-			heli.transform.rotation *= Quaternion.Euler(rot);
+			newRot.y += rot.y;
 		}
 		if(Input.GetButton("rotate_left"))
 		{
 			Vector3 rot = new Vector3(0, -5f, 0) * moveSpeed * Time.deltaTime;
 			heli.transform.rotation *= Quaternion.Euler(rot);
+			newRot.y += rot.y;
 		}
 		if(Input.GetButton("up")){
 			Vector3 rate = new Vector3(0, 1f, 0) * moveSpeed * Time.deltaTime; 
@@ -76,8 +78,7 @@ public class HeliMovement : MonoBehaviour
 			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
 			//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, 1f);
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, -30f, speed/2); // why doesn't this work??!!
-			Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
-			transform.rotation *= rr; // *= for later when the forward/backward movement is added
+			newRot.z += zz;
         }
         if(Input.GetButton("Left"))
         {
@@ -88,8 +89,7 @@ public class HeliMovement : MonoBehaviour
 			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
 			//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, rotN.z, 1f);
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 30f, speed/2);
-			Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
-			transform.rotation *= rr; // *= for later when the forward/backward movement is added
+			newRot.z += zz;
         }
 		if(Input.GetButton("forward"))
 		{
@@ -97,8 +97,7 @@ public class HeliMovement : MonoBehaviour
 			heli.transform.position += rate;
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, speed/2);
-			Quaternion rr = Quaternion.Euler(new Vector3(zz, rotN.y, transform.rotation.eulerAngles.z));
-			transform.rotation *= rr; 
+			newRot.x += zz;
 		}
 		if(Input.GetButton("backward")) 
 		{
@@ -106,8 +105,7 @@ public class HeliMovement : MonoBehaviour
 			heli.transform.position += rate;
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, speed/2);
-			Quaternion rr = Quaternion.Euler(new Vector3(zz, rotN.y, transform.rotation.eulerAngles.z));
-			transform.rotation *= rr; 
+			newRot.x += zz;
 		}
 		/*
 		if(Input.GetMouseButtonDown(0)) // works, but a little broken
@@ -134,12 +132,15 @@ public class HeliMovement : MonoBehaviour
 			Quaternion r = Quaternion.Euler(new Vector3(x, transform.rotation.eulerAngles.y, z));
 			transform.rotation = r;
 		}
-            // add the shoot and fire commands here, just make a class for each in Classes.cs and then start their coroutines from code like "StartCoroutine(bullet.fire())"
+		// not really working, allows the full rotation, but when you aren't holding the key, the rotation is instantly set to 0 instead of going to the "else" block
+		Quaternion r2 = Quaternion.Euler(newRot);
+		transform.rotation = r2;
+        // add the shoot and fire commands here, just make a class for each in Classes.cs and then start their coroutines from code like "StartCoroutine(bullet.fire())"
 
 
 
-
-            foreach (var gameObject in GOs) // inaficient to do each update, but for now, it is needed
+		/*
+        foreach (var gameObject in GOs) // inefficient to do each update, but for now, it is needed
 		{
 			if (!screen.Contains(gameObject.transform.position))
 			{
@@ -153,24 +154,7 @@ public class HeliMovement : MonoBehaviour
 				}
 			}
 		}
-	}
-	void tiltLeft()
-	{
-		Vector3 rotN = TiltSide();
-		//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
-		//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, rotN.z, 1f);
-		float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, 30f, speed/2);
-		Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
-		transform.rotation *= rr; // *= for later when the forward/backward movement is added
-	}
-	void tiltRight() // moved to its own function but still wont work :cryingface
-	{
-		Vector3 rotN = TiltSide();
-		//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
-		//float xx = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, 1f);
-		float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.z, -30f, speed/2); // why doesn't this work??!!
-		Quaternion rr = Quaternion.Euler(new Vector3(0f, rotN.y, zz));
-		transform.rotation *= rr; // *= for later when the forward/backward movement is added
+		*/
 	}
 	Vector3 TiltSide() // returns for the left side, do negative return value for right
 	// really bugged
@@ -226,6 +210,8 @@ public class HeliMovement : MonoBehaviour
 		return rot_fix;
 	}
 
+
+	// Below math is needed for x and z movement split
 	// Vector3 moveLeft() -> use moveSpeed
 	// Vector3 moveRight() -> use moveSpeed
 	// Vector3 moveForward() -> use moveSpeed
