@@ -215,7 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   col:
     serializedVersion: 2
-    rgba: 2473684848
+    rgba: 2466278817
 --- !u!23 &341276163
 MeshRenderer:
   m_ObjectHideFlags: 0
