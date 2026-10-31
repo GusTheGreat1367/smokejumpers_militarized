@@ -6,6 +6,9 @@ using UnityEngine;
 
 // make the rotations go to the "else" block in the Update() instead of if the key is pressed go to rotaion then reset rotation to 0 anfter the key is released
 // for more realism, make it so there's motion, meaning that if you are ex: going left and release the left arrow, you continue moving left until the motion == 0
+// fix the door movement
+// other movement bugs are prevalent like the barrel roll one
+// shaders for cannon fire
 // Rect3D isn't needed anymore
 // add missiles, targeting from where you clicked the mouse on screen - click on screen > spawn a missile dropping from heli > vector to mouse click position and back of Rect3D > explode missile when you hit back of Rect3D
 // make it so the heli's angle can be the backward and side 30 degrees when you press ex: s and a
@@ -95,7 +98,7 @@ public class HeliMovement : MonoBehaviour
 			heli.transform.position += moveForward();
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, speed/2);
-			//newRot.x += zz;
+			newRot.x += zz;
 		}
 		if(Input.GetButton("backward")) 
 		{
@@ -103,7 +106,7 @@ public class HeliMovement : MonoBehaviour
 			heli.transform.position += moveBackward();
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, speed/2);
-			//newRot.x += zz;
+			newRot.x += zz;
 		}
 		else
 		{
