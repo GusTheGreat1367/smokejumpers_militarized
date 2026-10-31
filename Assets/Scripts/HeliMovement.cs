@@ -95,7 +95,7 @@ public class HeliMovement : MonoBehaviour
 			heli.transform.position += moveForward();
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, speed/2);
-			newRot.x += zz;
+			//newRot.x += zz;
 		}
 		if(Input.GetButton("backward")) 
 		{
@@ -103,26 +103,8 @@ public class HeliMovement : MonoBehaviour
 			heli.transform.position += moveBackward();
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, speed/2);
-			newRot.x += zz;
+			//newRot.x += zz;
 		}
-		/*
-		if(Input.GetMouseButtonDown(0)) // works, but a little broken
-		{
-			GameObject missile = new Missile(prefab, heli.transform.position, Input.mousePosition, fireText).fire();
-			GOs.Add(missile);
-			float x = missile.transform.position.x;
-			float y = missile.transform.position.y;
-			float z = missile.transform.position.z;
-			Vector3 mousePos = Input.mousePosition;
-
-			x = Mathf.MoveTowards(x, mousePos.x, 10f); // later cange to the y = e^x equation
-			y = Mathf.MoveTowards(y, mousePos.y, 10f); // later change to the y = e^x equation
-			z = Mathf.MoveTowards(z, mousePos.z, 10f); // later change to the y = e^x equation
-			Vector3 newPos = new Vector3(x, y, z);
-
-			missile.transform.position = newPos;
-		}
-		*/
 		else
 		{
 			float x = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 0f, 1f); // or speed * Time.deltaTime
