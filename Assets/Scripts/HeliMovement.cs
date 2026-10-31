@@ -19,8 +19,8 @@ public class HeliMovement : MonoBehaviour
 	public GameObject heli;
 	public GameObject prefab; // the missile prefab
 	public GameObject fireText;
-	float speed = 2f;
-	float moveSpeed = 10f;
+	public float speed = 2f;
+	public float moveSpeed = 10f;
 	Rect3D screen = new Rect3D(55f, 25f, 40f, new Vector3(0,0,0));
 
 	public List<GameObject> GOs;

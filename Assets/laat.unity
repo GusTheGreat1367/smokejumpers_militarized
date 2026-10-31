@@ -204,7 +204,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: f1a1d732a0294483ea259789525c0af6, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: f1a1d732a0294483ea259789525c0af6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1061,12 +1061,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1364900346}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8, z: 12}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.412611, y: 4.734829, z: 10.504068}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1439057012}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!102 &1364900348
 TextMesh:
@@ -1183,6 +1183,8 @@ MonoBehaviour:
   heli: {fileID: 1439057010}
   prefab: {fileID: 869380719}
   fireText: {fileID: 402285082}
+  speed: 2
+  moveSpeed: 10
   GOs:
   - {fileID: 1439057010}
   - {fileID: 869380719}
@@ -1198,8 +1200,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 696440469}
-  - {fileID: 155502632}
   - {fileID: 1364900347}
+  - {fileID: 155502632}
   - {fileID: 1322557932}
   m_Father: {fileID: 0}
   m_RootOrder: 0

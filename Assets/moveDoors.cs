@@ -16,12 +16,12 @@ public class moveDoors : MonoBehaviour {
 		{
 			if(!doorsMoved)
 			{
-				transform.position -= new Vector3(transform.forward.x, 0f, transform.forward.z) * 3f;
+				transform.position -= transform.forward * 3f;
 				doorsMoved = true;
 			}
 			else
 			{
-				transform.position += new Vector3(transform.forward.x, 0f, transform.forward.z) * 3f;
+				transform.position += transform.forward * 3f;
 				doorsMoved = false;
 			}
 		}
