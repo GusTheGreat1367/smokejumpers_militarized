@@ -39,6 +39,7 @@ public class HeliMovement : MonoBehaviour
     }
     void Update () 
 	{
+		Vector3 rotNow = transform.rotation.eulerAngles;
 		Vector3 newRot = new Vector3(0, transform.rotation.eulerAngles.y, 0);
 		/*
 		var xxx = transform.rotation.eulerAngles.x;
@@ -71,8 +72,8 @@ public class HeliMovement : MonoBehaviour
 		}
         if(Input.GetButton("Right"))
         {
-            Vector3 rate = new Vector3(1f, 0, 0) * moveSpeed * Time.deltaTime; 
-			heli.transform.position += rate;
+            //Vector3 rate = new Vector3(1f, 0, 0) * moveSpeed * Time.deltaTime; 
+			heli.transform.position += moveRight();
 			//tiltRight();
 			Vector3 rotN = TiltSide();
 			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
@@ -82,8 +83,8 @@ public class HeliMovement : MonoBehaviour
         }
         if(Input.GetButton("Left"))
         {
-            Vector3 rate = new Vector3(-1f, 0, 0) * moveSpeed * Time.deltaTime;
-			heli.transform.position += rate;
+            //Vector3 rate = new Vector3(-1f, 0, 0) * moveSpeed * Time.deltaTime;
+			heli.transform.position += moveLeft();
 			//tiltLeft();
 			Vector3 rotN = TiltSide();
 			//Vector3 rot = new Vector3(rotN.z, rotN.y, rotN.x);
@@ -93,16 +94,16 @@ public class HeliMovement : MonoBehaviour
         }
 		if(Input.GetButton("forward"))
 		{
-			Vector3 rate = new Vector3(0, 0, 1f) * moveSpeed * Time.deltaTime;
-			heli.transform.position += rate;
+			//Vector3 rate = new Vector3(0, 0, 1f) * moveSpeed * Time.deltaTime;
+			heli.transform.position += moveForward();
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, 30f, speed/2);
 			newRot.x += zz;
 		}
 		if(Input.GetButton("backward")) 
 		{
-			Vector3 rate = new Vector3(0, 0, -1f) * moveSpeed * Time.deltaTime;
-			heli.transform.position += rate;
+			//Vector3 rate = new Vector3(0, 0, -1f) * moveSpeed * Time.deltaTime;
+			heli.transform.position += moveBackward();
 			Vector3 rotN = TiltSide();
 			float zz = Mathf.MoveTowardsAngle(transform.rotation.eulerAngles.x, -30f, speed/2);
 			newRot.x += zz;
@@ -211,10 +212,10 @@ public class HeliMovement : MonoBehaviour
 	}
 
 
-	// Below math is needed for x and z movement split
-	// Vector3 moveLeft() -> use moveSpeed
-	// Vector3 moveRight() -> use moveSpeed
-	// Vector3 moveForward() -> use moveSpeed
-	// Vector3 moveBackward() -> use moveSpeed
+	// the transform. stuff means with the rotation of the heli, you always go down and forward/backward/left/right
+	Vector3 moveLeft() { Vector3 direction = new Vector3(transform.right.x, 0, transform.right.z) * -moveSpeed * Time.deltaTime; return direction; }
+	Vector3 moveRight() { Vector3 direction = new Vector3(transform.right.x, 0, transform.right.z) * moveSpeed * Time.deltaTime; return direction; }
+	Vector3 moveForward() { Vector3 direction = new Vector3(transform.forward.x, 0, transform.forward.z)* moveSpeed * Time.deltaTime; return direction; }
+	Vector3 moveBackward() { Vector3 direction = new Vector3(transform.forward.x, 0, transform.forward.z) * -moveSpeed * Time.deltaTime; return direction; }
 
 }
