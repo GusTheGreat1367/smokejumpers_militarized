@@ -21,7 +21,6 @@ public class HeliMovement : MonoBehaviour
 	// Use this for initialization
 	public GameObject heli;
 	public GameObject prefab; // the missile prefab
-	public GameObject fireText;
 	public float speed = 2f;
 	public float moveSpeed = 10f;
 	Rect3D screen = new Rect3D(55f, 25f, 40f, new Vector3(0,0,0));
@@ -30,7 +29,6 @@ public class HeliMovement : MonoBehaviour
 
 	void Start ()
 	{
-		fireText.SetActive(false);
 		prefab.SetActive(false);
 	}
     private void OnDrawGizmos()
