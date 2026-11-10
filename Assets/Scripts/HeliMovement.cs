@@ -5,6 +5,7 @@ using UnityEngine;
 // TODO (top > down = importance):
 
 // make the rotations go to the "else" block in the Update() instead of if the key is pressed go to rotaion then reset rotation to 0 anfter the key is released
+// make the movement speed increase/decrease and be more realistic
 // for more realism, make it so there's motion, meaning that if you are ex: going left and release the left arrow, you continue moving left until the motion == 0
 // fix the door movement
 // other movement bugs are prevalent like the barrel roll one
@@ -23,7 +24,7 @@ public class HeliMovement : MonoBehaviour
 	public GameObject prefab; // the missile prefab
 	public float speed = 2f;
 	public float moveSpeed = 10f;
-	Rect3D screen = new Rect3D(55f, 25f, 40f, new Vector3(0,0,0));
+	//Rect3D screen = new Rect3D(55f, 25f, 40f, new Vector3(0,0,0));
 
 	public List<GameObject> GOs;
 
@@ -31,10 +32,6 @@ public class HeliMovement : MonoBehaviour
 	{
 		prefab.SetActive(false);
 	}
-    private void OnDrawGizmos()
-    {
-        screen.draw(0f, 0f, 0f);
-    }
     void Update () 
 	{
 		Vector3 rotNow = transform.rotation.eulerAngles;
